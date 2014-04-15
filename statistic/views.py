@@ -187,6 +187,7 @@ def profile(request, pk):
 
 
 def stats(request):
+    statistic = {}
     # Add variables
     vik_one_all = int()
     vik_two_all = int()
@@ -362,7 +363,8 @@ def stats(request):
         uo = k + 0.5 * adp - 0.6 * (dat + age)
         #Считаем среднее по типам диабета
         #Тип 1
-        if diabet_type == 1:
+
+        if int(diabet_type) == 1:
             #For all
             index_type_one_all += 1
             vik_one_all += vik
@@ -370,7 +372,7 @@ def stats(request):
             uo_one_all += uo
             eco_one_all += economisation
 
-            if sex == "m":
+            if sex == "M":
                 vik_one += vik
                 w_one += w
                 uo_one += uo
@@ -409,7 +411,7 @@ def stats(request):
                 alt_sigma_man_sum += (abs(alt) - abs(alt_one/sex_index_m))**2
                 glukosa_sigma_man_sum += (abs(glukosa) - abs(glukosa_one/sex_index_m))**2
 
-            if sex == "w":
+            if sex == "F":
                 vik_onew += vik
                 w_onew += w
                 uo_onew += uo
@@ -449,15 +451,14 @@ def stats(request):
                 glukosa_sigma_wom_sum += (abs(glukosa) - abs(glukosa_onew/sex_index_w))**2
 
         #Тип 2
-        if diabet_type == 2:
+        if int(diabet_type) == 2:
             #For All
             index_type_two_all += 1
             vik_two_all += vik
             w_two_all += w
             uo_two_all += uo
             eco_two_all += economisation
-
-            if sex == "m":
+            if sex == "M":
                 vik_two += vik
                 w_two += w
                 uo_two += uo
@@ -496,7 +497,7 @@ def stats(request):
                 alt_sigma_man2_sum += (abs(alt) - abs(alt_two/sex_index_m2))**2
                 glukosa_sigma_man2_sum += (abs(glukosa) - abs(glukosa_two/sex_index_m2))**2
 
-            if sex == "w":
+            if sex == "F":
                 vik_twow += vik
                 w_twow += w
                 uo_twow += uo
@@ -539,34 +540,59 @@ def stats(request):
     Man type 1
     """
     #vik man 1
-    sigmas_vik = math.sqrt(vik_sigma_man_sum/(sex_index_m-1))
-    sx_vik_m_one = sigmas_vik/math.sqrt((sex_index_m-1))
-    cv_vik_m_one = (sigmas_vik/(vik_one/sex_index_m))
+    sigma = math.sqrt(vik_sigma_man_sum/(sex_index_m-1))
+    sx = sigma/math.sqrt((sex_index_m-1))
+    cv = (sigma/(vik_one/sex_index_m))
     middle = vik_one/sex_index_m
 
+    statistic['m_one_vik_sigma'] = round(sigma, 4)
+    statistic['m_one_vik_sx'] = round(sx, 4)
+    statistic['m_one_vik_cv'] = round(cv, 4)
+    statistic['m_one_vik_middle'] = round(middle, 4)
+
     #w man 1
-    sigmas_w = math.sqrt(w_sigma_man_sum/(sex_index_m-1))
-    sx_w_m_one = sigmas_w/math.sqrt((sex_index_m-1))
-    cv_w_m_one = (sigmas_w/(w_one/sex_index_m))
+    sigma = math.sqrt(w_sigma_man_sum/(sex_index_m-1))
+    sx = sigma/math.sqrt((sex_index_m-1))
+    cv = (sigma/(w_one/sex_index_m))
     middle = w_one/sex_index_m
 
+    statistic['m_one_w_sigma'] = round(sigma, 4)
+    statistic['m_one_w_sx'] = round(sx, 4)
+    statistic['m_one_w_cv'] = round(cv, 4)
+    statistic['m_one_w_middle'] = round(middle, 4)
+
     #uo man 1
-    sigmas_uo = math.sqrt(uo_sigma_man_sum/(sex_index_m-1))
-    sx_uo_m_one = sigmas_uo/math.sqrt((sex_index_m-1))
-    cv_uo_m_one = (sigmas_uo/(uo_one/sex_index_m))
+    sigma = math.sqrt(uo_sigma_man_sum/(sex_index_m-1))
+    sx = sigma/math.sqrt((sex_index_m-1))
+    cv = (sigma/(uo_one/sex_index_m))
     middle = uo_one/sex_index_m
 
+    statistic['m_one_uo_sigma'] = round(sigma, 4)
+    statistic['m_one_uo_sx'] = round(sx, 4)
+    statistic['m_one_uo_cv'] = round(cv, 4)
+    statistic['m_one_uo_middle'] = round(middle, 4)
+
     #economisation man 1
-    sigmas_eco = math.sqrt(eco_sigma_man_sum/(sex_index_m-1))
-    sx_eco_m_one = sigmas_eco/math.sqrt((sex_index_m-1))
-    cv_eco_m_one = (sigmas_eco/(eco_one/sex_index_m))
+    sigma = math.sqrt(eco_sigma_man_sum/(sex_index_m-1))
+    sx = sigma/math.sqrt((sex_index_m-1))
+    cv = (sigma/(eco_one/sex_index_m))
     middle = eco_one/sex_index_m
 
+    statistic['m_one_eco_sigma'] = round(sigma, 4)
+    statistic['m_one_eco_sx'] = round(sx, 4)
+    statistic['m_one_eco_cv'] = round(cv, 4)
+    statistic['m_one_eco_middle'] = round(middle, 4)
+
     #SKF
-    sigmas_skf = math.sqrt(skf_sigma_man_sum/(sex_index_m-1))
-    sx_skf_m_one = sigmas_skf/math.sqrt((sex_index_m-1))
-    cv_skf_m_one = (sigmas_skf/(skf_one/sex_index_m))
+    sigma = math.sqrt(skf_sigma_man_sum/(sex_index_m-1))
+    sx = sigma/math.sqrt((sex_index_m-1))
+    cv = (sigma/(skf_one/sex_index_m))
     middle = skf_one/sex_index_m
+
+    statistic['m_one_skf_sigma'] = round(sigma, 4)
+    statistic['m_one_skf_sx'] = round(sx, 4)
+    statistic['m_one_skf_cv'] = round(cv, 4)
+    statistic['m_one_skf_middle'] = round(middle, 4)
 
     #HSLPVP
     sigma = math.sqrt(hslpvp_sigma_man_sum/(sex_index_m-1))
@@ -574,11 +600,21 @@ def stats(request):
     cv = (sigma/(hslpvp_one/sex_index_m))
     middle = hslpvp_one/sex_index_m
 
+    statistic['m_one_vp_sigma'] = round(sigma, 4)
+    statistic['m_one_vp_sx'] = round(sx, 4)
+    statistic['m_one_vp_cv'] = round(cv, 4)
+    statistic['m_one_vp_middle'] = round(middle, 4)
+
     #HSLPNP
     sigma = math.sqrt(hslpnp_sigma_man_sum/(sex_index_m-1))
     sx = sigma/math.sqrt((sex_index_m-1))
     cv = (sigma/(hslpnp_one/sex_index_m))
     middle = hslpnp_one/sex_index_m
+
+    statistic['m_one_np_sigma'] = round(sigma, 4)
+    statistic['m_one_np_sx'] = round(sx, 4)
+    statistic['m_one_np_cv'] = round(cv, 4)
+    statistic['m_one_np_middle'] = round(middle, 4)
 
     #MOCH
     sigma = math.sqrt(moch_sigma_man_sum/(sex_index_m-1))
@@ -586,11 +622,21 @@ def stats(request):
     cv = (sigma/(moch_one/sex_index_m))
     middle = moch_one/sex_index_m
 
+    statistic['m_one_moch_sigma'] = round(sigma, 4)
+    statistic['m_one_moch_sx'] = round(sx, 4)
+    statistic['m_one_moch_cv'] = round(cv, 4)
+    statistic['m_one_moch_middle'] = round(middle, 4)
+
     #KREAT
     sigma = math.sqrt(kreat_sigma_man_sum/(sex_index_m-1))
     sx = sigma/math.sqrt((sex_index_m-1))
     cv = (sigma/(kreat_one/sex_index_m))
     middle = kreat_one/sex_index_m
+
+    statistic['m_one_kr_sigma'] = round(sigma, 4)
+    statistic['m_one_kr_sx'] = round(sx, 4)
+    statistic['m_one_kr_cv'] = round(cv, 4)
+    statistic['m_one_kr_middle'] = round(middle, 4)
 
     #BILIRUBIN
     sigma = math.sqrt(bilirubin_sigma_man_sum/(sex_index_m-1))
@@ -598,11 +644,21 @@ def stats(request):
     cv = (sigma/(bilirubin_one/sex_index_m))
     middle = bilirubin_one/sex_index_m
 
+    statistic['m_one_bil_sigma'] = round(sigma, 4)
+    statistic['m_one_bil_sx'] = round(sx, 4)
+    statistic['m_one_bil_cv'] = round(cv, 4)
+    statistic['m_one_bil_middle'] = round(middle, 4)
+
     #AST
     sigma = math.sqrt(ast_sigma_man_sum/(sex_index_m-1))
     sx = sigma/math.sqrt((sex_index_m-1))
     cv = (sigma/(ast_one/sex_index_m))
     middle = ast_one/sex_index_m
+
+    statistic['m_one_ast_sigma'] = round(sigma, 4)
+    statistic['m_one_ast_sx'] = round(sx, 4)
+    statistic['m_one_ast_cv'] = round(cv, 4)
+    statistic['m_one_ast_middle'] = round(middle, 4)
 
     #ALT
     sigma = math.sqrt(alt_sigma_man_sum/(sex_index_m-1))
@@ -610,11 +666,21 @@ def stats(request):
     cv = (sigma/(alt_one/sex_index_m))
     middle = alt_one/sex_index_m
 
+    statistic['m_one_alt_sigma'] = round(sigma, 4)
+    statistic['m_one_alt_sx'] = round(sx, 4)
+    statistic['m_one_alt_cv'] = round(cv, 4)
+    statistic['m_one_alt_middle'] = round(middle, 4)
+
     #GLUCOSA
     sigma = math.sqrt(glukosa_sigma_man_sum/(sex_index_m-1))
     sx = sigma/math.sqrt((sex_index_m-1))
     cv = (sigma/(glukosa_one/sex_index_m))
     middle = glukosa_one/sex_index_m
+
+    statistic['m_one_gl_sigma'] = round(sigma, 4)
+    statistic['m_one_gl_sx'] = round(sx, 4)
+    statistic['m_one_gl_cv'] = round(cv, 4)
+    statistic['m_one_gl_middle'] = round(middle, 4)
 
     """
     Woman type 1
@@ -861,6 +927,7 @@ def stats(request):
     cv = (sigma/(glukosa_twow/sex_index_w2))
     middle = glukosa_twow/sex_index_w2
 
-    return render_to_response('statistic.html', {'peoples': users, 'profiles': profiles}, context)
+    return render_to_response('statistic.html', {'peoples': users, 'profiles': profiles,
+                                                 'statistic': statistic}, context)
 
 
