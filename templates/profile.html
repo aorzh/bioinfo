@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <div class="hero-unit" xmlns="http://www.w3.org/1999/html">
+        <h2>{{ user.username }}</h2>
+
+        {% if userprofile %}
+            <p>Пол: {{ userprofile.gender }}</p>
+            <p>Возвраст: {{ age }}</p>
+            <p>Тип диабета: {{ diabet_type }}</p>
+            <p>Индекс Кердо: {{ kerdo }}</p>
+            <p>Коэффициент экономизации кровообращения: {{ economisation }}</p>
+            <p>Двойное произведение. Этот показатель отражает нагрузку сердце: {{ w }}</p>
+            <p>Ударный объем: {{ uo }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

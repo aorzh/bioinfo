@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% load static %}
+    {% for name in users %}
+        <ul class="unstyled">
+            <li>
+                <a href="/profile/{{ name }}">{{ name }}</a>
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock %}
