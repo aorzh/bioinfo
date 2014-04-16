@@ -33,7 +33,7 @@
                    {% endif %}
                </ul>
                <ul class="nav">
-                   <li><a href="/profile/{{ user.user_id }}">Профиль</a></li>
+                   <li><a href="/profile/{{ user.id }}">Профиль</a></li>
                    {% if user.is_superuser %}
                        <li><a href="/admin">Админ</a></li>
                        <li><a href="/users">Список пользоветелей</a></li>
