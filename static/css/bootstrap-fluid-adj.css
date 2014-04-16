@@ -15,3 +15,7 @@ padding: 9px 0;
     padding-right: 5px;
     }
 }
+
+.table thead th {
+    text-align: center;
+}
