@@ -2,5 +2,107 @@
 
 {% block content %}
     {% load static %}
-    {{ statistic }}
+
+    <table class="table table-bordered">
+        <caption>Глюкоза</caption>
+        <thead>
+            <tr>
+                <th>Показатель\Исследуемая группа</th>
+                <th colspan="2">Тип 1</th>
+                <th colspan="2">Тип 2</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>М</th>
+                <th>Ж</th>
+                <th>М</th>
+                <th>Ж</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Глюкоза</td>
+                <td>Sx: {{ statistic.m_one_gl_sx }}, Cv: {{ statistic.m_one_gl_cv }}, Sa: {{ statistic.m_one_gl_middle}}</td>
+                <td>Sx: {{ statistic.w_one_gl_sx }}, Cv: {{ statistic.w_one_gl_cv }}, Sa: {{ statistic.w_one_gl_middle}}</td>
+                <td>Sx: {{ statistic.m_two_gl_sx }}, Cv: {{ statistic.m_two_gl_cv }}, Sa: {{ statistic.m_two_gl_middle}}</td>
+                <td>Sx: {{ statistic.w_two_gl_sx }}, Cv: {{ statistic.w_two_gl_cv }}, Sa: {{ statistic.w_two_gl_middle}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <caption>Биохимические показатели, влияющие на работу почек</caption>
+        <thead>
+            <tr>
+                <th>Показатель\Исследуемая группа</th>
+                <th colspan="2">Тип 1</th>
+                <th colspan="2">Тип 2</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>М</th>
+                <th>Ж</th>
+                <th>М</th>
+                <th>Ж</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Глюкоза</td>
+                <td>Sx: {{ statistic.m_one_gl_sx }}, Cv: {{ statistic.m_one_gl_cv }}, Sa: {{ statistic.m_one_gl_middle}}</td>
+                <td>Sx: {{ statistic.w_one_gl_sx }}, Cv: {{ statistic.w_one_gl_cv }}, Sa: {{ statistic.w_one_gl_middle}}</td>
+                <td>Sx: {{ statistic.m_two_gl_sx }}, Cv: {{ statistic.m_two_gl_cv }}, Sa: {{ statistic.m_two_gl_middle}}</td>
+                <td>Sx: {{ statistic.w_two_gl_sx }}, Cv: {{ statistic.w_two_gl_cv }}, Sa: {{ statistic.w_two_gl_middle}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <caption>Физиологические показатели</caption>
+        <thead>
+            <tr>
+                <th>Показатель\Исследуемая группа</th>
+                <th colspan="2">Тип 1</th>
+                <th colspan="2">Тип 2</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>М</th>
+                <th>Ж</th>
+                <th>М</th>
+                <th>Ж</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Индекс Кердо</td>
+                <td>Sx: {{ statistic.m_one_vik_sx }}, Cv: {{ statistic.m_one_vik_cv }}, Sa: {{ statistic.m_one_vik_middle}}</td>
+                <td>Sx: {{ statistic.w_one_vik_sx }}, Cv: {{ statistic.w_one_vik_cv }}, Sa: {{ statistic.w_one_vik_middle}}</td>
+                <td>Sx: {{ statistic.m_two_vik_sx }}, Cv: {{ statistic.m_two_vik_cv }}, Sa: {{ statistic.m_two_vik_middle}}</td>
+                <td>Sx: {{ statistic.w_two_vik_sx }}, Cv: {{ statistic.w_two_vik_cv }}, Sa: {{ statistic.w_two_vik_middle}}</td>
+            </tr>
+            <tr>
+                <td>Двойное произведение</td>
+                <td>Sx: {{ statistic.m_one_w_sx }}, Cv: {{ statistic.m_one_w_cv }}, Sa: {{ statistic.m_one_w_middle}}</td>
+                <td>Sx: {{ statistic.w_one_w_sx }}, Cv: {{ statistic.w_one_w_cv }}, Sa: {{ statistic.w_one_w_middle}}</td>
+                <td>Sx: {{ statistic.m_two_w_sx }}, Cv: {{ statistic.m_two_w_cv }}, Sa: {{ statistic.m_two_w_middle}}</td>
+                <td>Sx: {{ statistic.w_two_w_sx }}, Cv: {{ statistic.w_two_w_cv }}, Sa: {{ statistic.w_two_w_middle}}</td>
+            </tr>
+            <tr>
+                <td>Ударный объем</td>
+                <td>Sx: {{ statistic.m_one_uo_sx }}, Cv: {{ statistic.m_one_uo_cv }}, Sa: {{ statistic.m_one_uo_middle}}</td>
+                <td>Sx: {{ statistic.w_one_uo_sx }}, Cv: {{ statistic.w_one_uo_cv }}, Sa: {{ statistic.w_one_uo_middle}}</td>
+                <td>Sx: {{ statistic.m_two_uo_sx }}, Cv: {{ statistic.m_two_uo_cv }}, Sa: {{ statistic.m_two_uo_middle}}</td>
+                <td>Sx: {{ statistic.w_two_uo_sx }}, Cv: {{ statistic.w_two_uo_cv }}, Sa: {{ statistic.w_two_uo_middle}}</td>
+            </tr>
+            <tr>
+                <td>Коэффициент экономизации</td>
+                <td>Sx: {{ statistic.m_one_eco_sx }}, Cv: {{ statistic.m_one_eco_cv }}, Sa: {{ statistic.m_one_eco_middle}}</td>
+                <td>Sx: {{ statistic.w_one_eco_sx }}, Cv: {{ statistic.w_one_eco_cv }}, Sa: {{ statistic.w_one_eco_middle}}</td>
+                <td>Sx: {{ statistic.m_two_eco_sx }}, Cv: {{ statistic.m_two_eco_cv }}, Sa: {{ statistic.m_two_eco_middle}}</td>
+                <td>Sx: {{ statistic.w_two_eco_sx }}, Cv: {{ statistic.w_two_eco_cv }}, Sa: {{ statistic.w_two_eco_middle}}</td>
+            </tr>
+        </tbody>
+    </table>
+
 {% endblock %}
