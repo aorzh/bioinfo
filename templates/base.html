@@ -25,20 +25,20 @@
            <div class="nav-collapse collapse">
                <ul class="nav pull-right">
                    {% if user.is_authenticated %}
-                    <li class="navbar-text">Welcome, {{ user.username }}!</li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li class="navbar-text">Добро пожаловать, {{ user.username }}!</li>
+                    <li><a href="/logout">Выйти</a></li>
                    {% else %}
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Регистрация</a></li>
+                    <li><a href="/login">Войти</a></li>
                    {% endif %}
                </ul>
                <ul class="nav">
-                   <li><a href="/profile/{{ user }}">Profile</a></li>
+                   <li><a href="/profile/{{ user.user_id }}">Профиль</a></li>
                    {% if user.is_superuser %}
-                       <li><a href="/admin">Admin</a></li>
-                       <li><a href="/users">Users List</a></li>
+                       <li><a href="/admin">Админ</a></li>
+                       <li><a href="/users">Список пользоветелей</a></li>
                    {% endif %}
-                   <li><a href="/statistic">Statistic</a></li>
+                   <li><a href="/statistic">Статистика</a></li>
                </ul>
            </div>
            <!--/.nav-collapse -->

@@ -31,7 +31,7 @@
     </table>
 
     <table class="table table-bordered">
-        <caption>Биохимические показатели, влияющие на работу почек</caption>
+        <caption>Выделительльная система</caption>
         <thead>
             <tr>
                 <th>Показатель\Исследуемая группа</th>
@@ -48,11 +48,100 @@
         </thead>
         <tbody>
             <tr>
-                <td>Глюкоза</td>
-                <td>Sx: {{ statistic.m_one_gl_sx }}, Cv: {{ statistic.m_one_gl_cv }}, Sa: {{ statistic.m_one_gl_middle}}</td>
-                <td>Sx: {{ statistic.w_one_gl_sx }}, Cv: {{ statistic.w_one_gl_cv }}, Sa: {{ statistic.w_one_gl_middle}}</td>
-                <td>Sx: {{ statistic.m_two_gl_sx }}, Cv: {{ statistic.m_two_gl_cv }}, Sa: {{ statistic.m_two_gl_middle}}</td>
-                <td>Sx: {{ statistic.w_two_gl_sx }}, Cv: {{ statistic.w_two_gl_cv }}, Sa: {{ statistic.w_two_gl_middle}}</td>
+                <td>СКФ</td>
+                <td>Sx: {{ statistic.m_one_skf_sx }}, Cv: {{ statistic.m_one_skf_cv }}, Sa: {{ statistic.m_one_skf_middle}}</td>
+                <td>Sx: {{ statistic.w_one_skf_sx }}, Cv: {{ statistic.w_one_skf_cv }}, Sa: {{ statistic.w_one_skf_middle}}</td>
+                <td>Sx: {{ statistic.m_two_skf_sx }}, Cv: {{ statistic.m_two_skf_cv }}, Sa: {{ statistic.m_two_skf_middle}}</td>
+                <td>Sx: {{ statistic.w_two_skf_sx }}, Cv: {{ statistic.w_two_skf_cv }}, Sa: {{ statistic.w_two_skf_middle}}</td>
+            </tr>
+            <tr>
+                <td>Мочевина</td>
+                <td>Sx: {{ statistic.m_one_moch_sx }}, Cv: {{ statistic.m_one_moch_cv }}, Sa: {{ statistic.m_one_moch_middle}}</td>
+                <td>Sx: {{ statistic.w_one_moch_sx }}, Cv: {{ statistic.w_one_moch_cv }}, Sa: {{ statistic.w_one_moch_middle}}</td>
+                <td>Sx: {{ statistic.m_two_moch_sx }}, Cv: {{ statistic.m_two_moch_cv }}, Sa: {{ statistic.m_two_moch_middle}}</td>
+                <td>Sx: {{ statistic.w_two_moch_sx }}, Cv: {{ statistic.w_two_moch_cv }}, Sa: {{ statistic.w_two_moch_middle}}</td>
+            </tr>
+            <tr>
+                <td>Креатинин</td>
+                <td>Sx: {{ statistic.m_one_kr_sx }}, Cv: {{ statistic.m_one_kr_cv }}, Sa: {{ statistic.m_one_kr_middle}}</td>
+                <td>Sx: {{ statistic.w_one_kr_sx }}, Cv: {{ statistic.w_one_kr_cv }}, Sa: {{ statistic.w_one_kr_middle}}</td>
+                <td>Sx: {{ statistic.m_two_kr_sx }}, Cv: {{ statistic.m_two_kr_cv }}, Sa: {{ statistic.m_two_kr_middle}}</td>
+                <td>Sx: {{ statistic.w_two_kr_sx }}, Cv: {{ statistic.w_two_kr_cv }}, Sa: {{ statistic.w_two_kr_middle}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <caption>Холестериновый обмен</caption>
+        <thead>
+            <tr>
+                <th>Показатель\Исследуемая группа</th>
+                <th colspan="2">Тип 1</th>
+                <th colspan="2">Тип 2</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>М</th>
+                <th>Ж</th>
+                <th>М</th>
+                <th>Ж</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Липопротенины высокой плотности</td>
+                <td>Sx: {{ statistic.m_one_vp_sx }}, Cv: {{ statistic.m_one_vp_cv }}, Sa: {{ statistic.m_one_vp_middle}}</td>
+                <td>Sx: {{ statistic.w_one_vp_sx }}, Cv: {{ statistic.w_one_vp_cv }}, Sa: {{ statistic.w_one_vp_middle}}</td>
+                <td>Sx: {{ statistic.m_two_vp_sx }}, Cv: {{ statistic.m_two_vp_cv }}, Sa: {{ statistic.m_two_vp_middle}}</td>
+                <td>Sx: {{ statistic.w_two_vp_sx }}, Cv: {{ statistic.w_two_vp_cv }}, Sa: {{ statistic.w_two_vp_middle}}</td>
+            </tr>
+            <tr>
+                <td>Липопротеины низкой плотности</td>
+                <td>Sx: {{ statistic.m_one_np_sx }}, Cv: {{ statistic.m_one_np_cv }}, Sa: {{ statistic.m_one_np_middle}}</td>
+                <td>Sx: {{ statistic.w_one_np_sx }}, Cv: {{ statistic.w_one_np_cv }}, Sa: {{ statistic.w_one_np_middle}}</td>
+                <td>Sx: {{ statistic.m_two_np_sx }}, Cv: {{ statistic.m_two_np_cv }}, Sa: {{ statistic.m_two_np_middle}}</td>
+                <td>Sx: {{ statistic.w_two_np_sx }}, Cv: {{ statistic.w_two_np_cv }}, Sa: {{ statistic.w_two_np_middle}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <caption>Печеночный обмен</caption>
+        <thead>
+            <tr>
+                <th>Показатель\Исследуемая группа</th>
+                <th colspan="2">Тип 1</th>
+                <th colspan="2">Тип 2</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>М</th>
+                <th>Ж</th>
+                <th>М</th>
+                <th>Ж</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Билирубин</td>
+                <td>Sx: {{ statistic.m_one_bil_sx }}, Cv: {{ statistic.m_one_bil_cv }}, Sa: {{ statistic.m_one_bil_middle}}</td>
+                <td>Sx: {{ statistic.w_one_bil_sx }}, Cv: {{ statistic.w_one_bil_cv }}, Sa: {{ statistic.w_one_bil_middle}}</td>
+                <td>Sx: {{ statistic.m_two_bil_sx }}, Cv: {{ statistic.m_two_bil_cv }}, Sa: {{ statistic.m_two_bil_middle}}</td>
+                <td>Sx: {{ statistic.w_two_bil_sx }}, Cv: {{ statistic.w_two_bil_cv }}, Sa: {{ statistic.w_two_bil_middle}}</td>
+            </tr>
+            <tr>
+                <td>Аспартатаминотрансфераза (АСТ)</td>
+                <td>Sx: {{ statistic.m_one_ast_sx }}, Cv: {{ statistic.m_one_ast_cv }}, Sa: {{ statistic.m_one_ast_middle}}</td>
+                <td>Sx: {{ statistic.w_one_ast_sx }}, Cv: {{ statistic.w_one_ast_cv }}, Sa: {{ statistic.w_one_ast_middle}}</td>
+                <td>Sx: {{ statistic.m_two_ast_sx }}, Cv: {{ statistic.m_two_ast_cv }}, Sa: {{ statistic.m_two_ast_middle}}</td>
+                <td>Sx: {{ statistic.w_two_ast_sx }}, Cv: {{ statistic.w_two_ast_cv }}, Sa: {{ statistic.w_two_ast_middle}}</td>
+            </tr>
+            <tr>
+                <td>Аланинаминотрансфераза (АЛТ)</td>
+                <td>Sx: {{ statistic.m_one_alt_sx }}, Cv: {{ statistic.m_one_alt_cv }}, Sa: {{ statistic.m_one_alt_middle}}</td>
+                <td>Sx: {{ statistic.w_one_alt_sx }}, Cv: {{ statistic.w_one_alt_cv }}, Sa: {{ statistic.w_one_alt_middle}}</td>
+                <td>Sx: {{ statistic.m_two_alt_sx }}, Cv: {{ statistic.m_two_alt_cv }}, Sa: {{ statistic.m_two_alt_middle}}</td>
+                <td>Sx: {{ statistic.w_two_alt_sx }}, Cv: {{ statistic.w_two_alt_cv }}, Sa: {{ statistic.w_two_alt_middle}}</td>
             </tr>
         </tbody>
     </table>

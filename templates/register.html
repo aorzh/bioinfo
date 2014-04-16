@@ -3,10 +3,9 @@
     <h1>Register with BioInfo</h1>
 
     {% if registered %}
-        BioInfo says: <strong>thank you for registering!</strong>
-        <a href="/">Return to the homepage.</a><br/>
+        <a href="/">На главную.</a><br/>
     {% else %}
-        BioInfo says: <strong>register here!</strong><br/>
+        <p>Пожалуйста, заренестрируйтесь и добавте данные анализов в форме внизу</p><br/>
 
         <form id="user_form" method="post" action="/register/"
               enctype="multipart/form-data">
@@ -20,7 +19,7 @@
             {{ profile_form.as_p }}
 
             <!-- Provide a button to click to submit the form. -->
-            <input class="btn btn-primary" type="submit" name="submit" value="Register"/>
+            <input class="btn btn-primary" type="submit" name="submit" value="Зарергестрироваться"/>
         </form>
     {% endif %}
 {% endblock %}

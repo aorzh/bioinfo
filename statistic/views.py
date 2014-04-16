@@ -7,24 +7,28 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from statistic.models import UserProfile
+from statistic.models import UserProfile, Post
 import math
 import datetime
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.urlresolvers import reverse
 
 
 def index(request):
-    # Request the context of the request.
-    # The context contains information such as the client's machine details, for example.
-    context = RequestContext(request)
+    posts = Post.objects.all().order_by("-created")
+    paginator = Paginator(posts, 2)
 
-    # Construct a dictionary to pass to the template engine as its context.
-    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    #context_dict = {'boldmessage': "I am bold font from the context"}
+    try:
+        page = int(request.GET.get("page", '1'))
+    except ValueError:
+        page = 1
 
-    # Return a rendered response to send to the client.
-    # We make use of the shortcut function to make our lives easier.
-    # Note that the first parameter is the template we wish to use.
-    return render_to_response('index.html', {}, context)
+    try:
+        posts = paginator.page(page)
+    except (InvalidPage, EmptyPage):
+        posts = paginator.page(paginator.num_pages)
+
+    return render_to_response('index.html', dict(posts=posts, user=request.user))
 
 
 def register(request):
@@ -141,15 +145,16 @@ def user_logout(request):
 @login_required
 def users_list(request):
     context = RequestContext(request)
-    users = User.objects.all()
-    return render_to_response('users.html', {'users': users}, context)
+    profiles = UserProfile.objects.all()
+
+    return render_to_response('users.html', {'profiles': profiles}, context)
 
 
 @login_required
-def profile(request, pk):
+def profile(request, user_id):
     context = RequestContext(request)
     context_dict = {}
-    u = User.objects.get(username=pk)
+    u = User.objects.get(pk=user_id)
 
     try:
         up = UserProfile.objects.get(user=u)
@@ -178,6 +183,7 @@ def profile(request, pk):
         context_dict['uo'] = uo
         context_dict['age'] = age
         context_dict['diabet_type'] = diabet_type
+        context_dict['pict'] = up.picture
     except:
         up = None
 

@@ -13,6 +13,6 @@ urlpatterns = patterns('',
                        url(r'^login/$', views.user_login, name='login'),
                        url(r'^logout/$', views.user_logout, name='logout'),
                        url(r'^statistic/$', views.stats, name='statistic'),
-                       url(r'^profile/(\d+)/$', views.profile, name='profile'),
+                       url(r'^profile/(?P<user_id>\d+)/$', views.profile, name='profile'),
                        url(r'^users/$', views.users_list, name='users'),
                        )

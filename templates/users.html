@@ -2,10 +2,10 @@
 
 {% block content %}
     {% load static %}
-    {% for name in users %}
+    {% for id in profiles %}
         <ul class="unstyled">
             <li>
-                <a href="/profile/{{ name }}">{{ name }}</a>
+                <a href="/profile/{{ id.user_id }}">{{ id.user }}</a>
             </li>
         </ul>
     {% endfor %}

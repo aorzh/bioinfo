@@ -3,6 +3,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Post(models.Model):
+    title = models.CharField(max_length=60)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    picture = models.ImageField(upload_to='post_images', blank=True)
+
+    def __unicode__(self):
+        return self.title
+
+
 class UserProfile(models.Model):
     GENDER_CHOICES = (
         ('M', 'Мужской'),
@@ -16,7 +26,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # Год рождения
-    year = models.IntegerField('Год', default=1960)
+    year = models.IntegerField('Год рождения', default=1960)
 
     # Gender
     gender = models.CharField('Пол', max_length=1, choices=GENDER_CHOICES, default='M')
@@ -57,11 +67,11 @@ class UserProfile(models.Model):
     # Аланинаминотрансфераза (АЛТ)
     alt = models.FloatField('Аланинаминотрансфераза (АЛТ)', default=0.0)
 
-    # Аланинаминотрансфераза (АЛТ)
+    # Глюкоза
     glukosa = models.FloatField('Глюкоза', default=0.0)
 
     # The additional attributes we wish to include.
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    picture = models.ImageField('Данные анализов (jpg, png)', upload_to='profile_images', blank=True)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
