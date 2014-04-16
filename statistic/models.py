@@ -3,16 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Post(models.Model):
-    title = models.CharField(max_length=60)
-    body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    picture = models.ImageField(upload_to='post_images', blank=True)
-
-    def __unicode__(self):
-        return self.title
-
-
 class UserProfile(models.Model):
     GENDER_CHOICES = (
         ('M', 'Мужской'),

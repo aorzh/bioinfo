@@ -7,28 +7,24 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from statistic.models import UserProfile, Post
+from statistic.models import UserProfile
 import math
 import datetime
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.urlresolvers import reverse
 
 
 def index(request):
-    posts = Post.objects.all().order_by("-created")
-    paginator = Paginator(posts, 2)
+    # Request the context of the request.
+    # The context contains information such as the client's machine details, for example.
+    context = RequestContext(request)
 
-    try:
-        page = int(request.GET.get("page", '1'))
-    except ValueError:
-        page = 1
+    # Construct a dictionary to pass to the template engine as its context.
+    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
+    #context_dict = {'boldmessage': "I am bold font from the context"}
 
-    try:
-        posts = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        posts = paginator.page(paginator.num_pages)
-
-    return render_to_response('index.html', dict(posts=posts, user=request.user))
+    # Return a rendered response to send to the client.
+    # We make use of the shortcut function to make our lives easier.
+    # Note that the first parameter is the template we wish to use.
+    return render_to_response('index.html', {}, context)
 
 
 def register(request):
