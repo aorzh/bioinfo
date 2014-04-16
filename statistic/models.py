@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from bioinfo import settings
 
 
 class UserProfile(models.Model):

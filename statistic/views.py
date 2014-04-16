@@ -547,6 +547,7 @@ def stats(request):
     cv = (sigma/(vik_one/sex_index_m))
     middle = vik_one/sex_index_m
 
+    statistic['m_one_sex'] = sex_index_m
     statistic['m_one_vik_sigma'] = round(sigma, 4)
     statistic['m_one_vik_sx'] = round(sx, 4)
     statistic['m_one_vik_cv'] = round(cv, 4)
@@ -693,6 +694,7 @@ def stats(request):
     cv = (sigma/(vik_onew/sex_index_w))
     middle = vik_onew/sex_index_w
 
+    statistic['w_one_sex'] = sex_index_w
     statistic['w_one_vik_sigma'] = round(sigma, 4)
     statistic['w_one_vik_sx'] = round(sx, 4)
     statistic['w_one_vik_cv'] = round(cv, 4)
@@ -840,6 +842,7 @@ def stats(request):
     cv = (sigma/(vik_two/sex_index_m2))
     middle = vik_two/sex_index_m2
 
+    statistic['m_two_sex'] = sex_index_m2
     statistic['m_two_vik_sigma'] = round(sigma, 4)
     statistic['m_two_vik_sx'] = round(sx, 4)
     statistic['m_two_vik_cv'] = round(cv, 4)
@@ -987,6 +990,7 @@ def stats(request):
     cv = (sigma/(vik_twow/sex_index_w2))
     middle = vik_twow/sex_index_w2
 
+    statistic['w_two_sex'] = sex_index_w2
     statistic['w_two_vik_sigma'] = round(sigma, 4)
     statistic['w_two_vik_sx'] = round(sx, 4)
     statistic['w_two_vik_cv'] = round(cv, 4)

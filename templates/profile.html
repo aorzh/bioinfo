@@ -3,7 +3,7 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-    <div class="hero-unit" xmlns="http://www.w3.org/1999/html">
+    <div class="span4 offset1">
         <h2>{{ user.username }}</h2>
 
         {% if userprofile %}
@@ -14,7 +14,7 @@
             <p>Коэффициент экономизации кровообращения: {{ economisation }}</p>
             <p>Двойное произведение. Этот показатель отражает нагрузку сердце: {{ w }}</p>
             <p>Ударный объем: {{ uo }}</p>
-            <p>Данные анализов: <img src="{{ pict }}"></p>
+            <p>Данные анализов: <img src="{{ MEDIA_URL }}{{ pict }}"></p>
         {% endif %}
     </div>
 {% endblock %}
