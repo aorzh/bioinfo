@@ -16,7 +16,7 @@ def index(request):
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
-
+    current_user = request.user
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
     #context_dict = {'boldmessage': "I am bold font from the context"}
@@ -24,7 +24,7 @@ def index(request):
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
-    return render_to_response('index.html', {}, context)
+    return render_to_response('index.html', {'current': current_user}, context)
 
 
 def register(request):
@@ -50,6 +50,7 @@ def register(request):
             # Now we hash the password with the set_password method.
             # Once hashed, we can update the user object.
             user.set_password(user.password)
+            user.is_active = False
             user.save()
 
             # Now sort out the UserProfile instance.
@@ -142,8 +143,9 @@ def user_logout(request):
 def users_list(request):
     context = RequestContext(request)
     profiles = UserProfile.objects.all()
+    current_user = request.user
 
-    return render_to_response('users.html', {'profiles': profiles}, context)
+    return render_to_response('users.html', {'profiles': profiles, 'current': current_user}, context)
 
 
 @login_required
@@ -151,7 +153,6 @@ def profile(request, user_id):
     context = RequestContext(request)
     context_dict = {}
     u = User.objects.get(pk=user_id)
-
     try:
         up = UserProfile.objects.get(user=u)
         #if user profile exist lets check indexes
@@ -185,7 +186,9 @@ def profile(request, user_id):
 
     context_dict['user'] = u
     context_dict['userprofile'] = up
-    return render_to_response('profile.html', context_dict, context)
+    context_dict['current'] = request.user
+
+    return render_to_response('profile.html', context_dict,  context)
 
 
 def stats(request):
@@ -330,213 +333,214 @@ def stats(request):
     profiles = UserProfile.objects.all()
     users = User.objects.all()
     for value in profiles:
-        now_date = datetime.date.today()
-        cur_year = now_date.year
-        sat = value.sat
-        dat = value.dat
-        css = value.css
-        year = value.year
-        sex = value.gender
-        diabet_type = value.type
-        skf = value.skf
-        hslpvp = value.hslpvp
-        hslpnp = value.hslpnp
-        moch = value.moch
-        kreat = value.kreat
-        bilirubin = value.bilirubin
-        ast = value.ast
-        alt = value.alt
-        glukosa = value.glukosa
+        if value.user.is_active:
+            now_date = datetime.date.today()
+            cur_year = now_date.year
+            sat = value.sat
+            dat = value.dat
+            css = value.css
+            year = value.year
+            sex = value.gender
+            diabet_type = value.type
+            skf = value.skf
+            hslpvp = value.hslpvp
+            hslpnp = value.hslpnp
+            moch = value.moch
+            kreat = value.kreat
+            bilirubin = value.bilirubin
+            ast = value.ast
+            alt = value.alt
+            glukosa = value.glukosa
 
-        age = cur_year - year
-        #Индекс Кердо
-        vik = 100 * (1 - (float(dat) / float(css)))
+            age = cur_year - year
+            #Индекс Кердо
+            vik = 100 * (1 - (float(dat) / float(css)))
 
-        #коэффициент экономизации кровообращения
-        economisation = (sat - dat) * css
+            #коэффициент экономизации кровообращения
+            economisation = (sat - dat) * css
 
-        #Двойное произведение. Этот показатель отражает нагрузку сердца
-        # по преодолению потока крови в артериальном русле.
-        w = (sat * css) / 100
+            #Двойное произведение. Этот показатель отражает нагрузку сердца
+            # по преодолению потока крови в артериальном русле.
+            w = (sat * css) / 100
 
-        #Ударный объем
-        k = 101  # для взрослых
-        adp = sat - dat  # Пульсовое давление
-        uo = k + 0.5 * adp - 0.6 * (dat + age)
-        #Считаем среднее по типам диабета
-        #Тип 1
+            #Ударный объем
+            k = 101  # для взрослых
+            adp = sat - dat  # Пульсовое давление
+            uo = k + 0.5 * adp - 0.6 * (dat + age)
+            #Считаем среднее по типам диабета
+            #Тип 1
 
-        if int(diabet_type) == 1:
-            #For all
-            index_type_one_all += 1
-            vik_one_all += vik
-            w_one_all += w
-            uo_one_all += uo
-            eco_one_all += economisation
+            if int(diabet_type) == 1:
+                #For all
+                index_type_one_all += 1
+                vik_one_all += vik
+                w_one_all += w
+                uo_one_all += uo
+                eco_one_all += economisation
 
-            if sex == "M":
-                vik_one += vik
-                w_one += w
-                uo_one += uo
-                eco_one += economisation
-                sex_index_m += 1
-                index_type_one += 1
+                if sex == "M":
+                    vik_one += vik
+                    w_one += w
+                    uo_one += uo
+                    eco_one += economisation
+                    sex_index_m += 1
+                    index_type_one += 1
 
-                #biochem
-                skf_one += skf
-                hslpvp_one += hslpvp
-                hslpnp_one += hslpnp
-                moch_one += moch
-                kreat_one += kreat
-                bilirubin_one += bilirubin
-                ast_one += ast
-                alt_one += alt
-                glukosa_one += glukosa
+                    #biochem
+                    skf_one += skf
+                    hslpvp_one += hslpvp
+                    hslpnp_one += hslpnp
+                    moch_one += moch
+                    kreat_one += kreat
+                    bilirubin_one += bilirubin
+                    ast_one += ast
+                    alt_one += alt
+                    glukosa_one += glukosa
 
-                #vik sigma
-                vik_sigma_man_sum += (abs(vik) - abs(vik_one/sex_index_m))**2
-                #W sigma
-                w_sigma_man_sum += (abs(w) - abs(w_one/sex_index_m))**2
-                #uo sigma
-                uo_sigma_man_sum += (abs(uo) - abs(uo_one/sex_index_m))**2
-                #eco sigma
-                eco_sigma_man_sum += (abs(economisation) - abs(eco_one/sex_index_m))**2
+                    #vik sigma
+                    vik_sigma_man_sum += (abs(vik) - abs(vik_one/sex_index_m))**2
+                    #W sigma
+                    w_sigma_man_sum += (abs(w) - abs(w_one/sex_index_m))**2
+                    #uo sigma
+                    uo_sigma_man_sum += (abs(uo) - abs(uo_one/sex_index_m))**2
+                    #eco sigma
+                    eco_sigma_man_sum += (abs(economisation) - abs(eco_one/sex_index_m))**2
 
-                #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
-                skf_sigma_man_sum += (abs(skf) - abs(skf_one/sex_index_m))**2
-                hslpvp_sigma_man_sum += (abs(hslpvp) - abs(hslpvp_one/sex_index_m))**2
-                hslpnp_sigma_man_sum += (abs(hslpnp) - abs(hslpnp_one/sex_index_m))**2
-                moch_sigma_man_sum += (abs(moch) - abs(moch_one/sex_index_m))**2
-                kreat_sigma_man_sum += (abs(kreat) - abs(kreat_one/sex_index_m))**2
-                bilirubin_sigma_man_sum += (abs(bilirubin) - abs(bilirubin_one/sex_index_m))**2
-                ast_sigma_man_sum += (abs(ast) - abs(ast_one/sex_index_m))**2
-                alt_sigma_man_sum += (abs(alt) - abs(alt_one/sex_index_m))**2
-                glukosa_sigma_man_sum += (abs(glukosa) - abs(glukosa_one/sex_index_m))**2
+                    #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
+                    skf_sigma_man_sum += (abs(skf) - abs(skf_one/sex_index_m))**2
+                    hslpvp_sigma_man_sum += (abs(hslpvp) - abs(hslpvp_one/sex_index_m))**2
+                    hslpnp_sigma_man_sum += (abs(hslpnp) - abs(hslpnp_one/sex_index_m))**2
+                    moch_sigma_man_sum += (abs(moch) - abs(moch_one/sex_index_m))**2
+                    kreat_sigma_man_sum += (abs(kreat) - abs(kreat_one/sex_index_m))**2
+                    bilirubin_sigma_man_sum += (abs(bilirubin) - abs(bilirubin_one/sex_index_m))**2
+                    ast_sigma_man_sum += (abs(ast) - abs(ast_one/sex_index_m))**2
+                    alt_sigma_man_sum += (abs(alt) - abs(alt_one/sex_index_m))**2
+                    glukosa_sigma_man_sum += (abs(glukosa) - abs(glukosa_one/sex_index_m))**2
 
-            if sex == "F":
-                vik_onew += vik
-                w_onew += w
-                uo_onew += uo
-                eco_onew += economisation
-                sex_index_w += 1
-                index_type_one_w += 1
+                if sex == "F":
+                    vik_onew += vik
+                    w_onew += w
+                    uo_onew += uo
+                    eco_onew += economisation
+                    sex_index_w += 1
+                    index_type_one_w += 1
 
-                #biochem
-                skf_onew += skf
-                hslpvp_onew += hslpvp
-                hslpnp_onew += hslpnp
-                moch_onew += moch
-                kreat_onew += kreat
-                bilirubin_onew += bilirubin
-                ast_onew += ast
-                alt_onew += alt
-                glukosa_onew += glukosa
+                    #biochem
+                    skf_onew += skf
+                    hslpvp_onew += hslpvp
+                    hslpnp_onew += hslpnp
+                    moch_onew += moch
+                    kreat_onew += kreat
+                    bilirubin_onew += bilirubin
+                    ast_onew += ast
+                    alt_onew += alt
+                    glukosa_onew += glukosa
 
-                #vik sigma
-                vik_sigma_wom_sum += (abs(vik) - abs(vik_onew/sex_index_w))**2
-                #W sigma
-                w_sigma_wom_sum += (abs(w) - abs(w_onew/sex_index_w))**2
-                #uo sigma
-                uo_sigma_wom_sum += (abs(uo) - abs(uo_onew/sex_index_w))**2
-                #eco sigma
-                eco_sigma_wom_sum += (abs(economisation) - abs(eco_onew/sex_index_w))**2
+                    #vik sigma
+                    vik_sigma_wom_sum += (abs(vik) - abs(vik_onew/sex_index_w))**2
+                    #W sigma
+                    w_sigma_wom_sum += (abs(w) - abs(w_onew/sex_index_w))**2
+                    #uo sigma
+                    uo_sigma_wom_sum += (abs(uo) - abs(uo_onew/sex_index_w))**2
+                    #eco sigma
+                    eco_sigma_wom_sum += (abs(economisation) - abs(eco_onew/sex_index_w))**2
 
-                #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
-                skf_sigma_wom_sum += (abs(skf) - abs(skf_onew/sex_index_w))**2
-                hslpvp_sigma_wom_sum += (abs(hslpvp) - abs(hslpvp_onew/sex_index_w))**2
-                hslpnp_sigma_wom_sum += (abs(hslpnp) - abs(hslpnp_onew/sex_index_w))**2
-                moch_sigma_wom_sum += (abs(moch) - abs(moch_onew/sex_index_w))**2
-                kreat_sigma_wom_sum += (abs(kreat) - abs(kreat_onew/sex_index_w))**2
-                bilirubin_sigma_wom_sum += (abs(bilirubin) - abs(bilirubin_onew/sex_index_w))**2
-                ast_sigma_wom_sum += (abs(ast) - abs(ast_onew/sex_index_w))**2
-                alt_sigma_wom_sum += (abs(alt) - abs(alt_onew/sex_index_w))**2
-                glukosa_sigma_wom_sum += (abs(glukosa) - abs(glukosa_onew/sex_index_w))**2
+                    #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
+                    skf_sigma_wom_sum += (abs(skf) - abs(skf_onew/sex_index_w))**2
+                    hslpvp_sigma_wom_sum += (abs(hslpvp) - abs(hslpvp_onew/sex_index_w))**2
+                    hslpnp_sigma_wom_sum += (abs(hslpnp) - abs(hslpnp_onew/sex_index_w))**2
+                    moch_sigma_wom_sum += (abs(moch) - abs(moch_onew/sex_index_w))**2
+                    kreat_sigma_wom_sum += (abs(kreat) - abs(kreat_onew/sex_index_w))**2
+                    bilirubin_sigma_wom_sum += (abs(bilirubin) - abs(bilirubin_onew/sex_index_w))**2
+                    ast_sigma_wom_sum += (abs(ast) - abs(ast_onew/sex_index_w))**2
+                    alt_sigma_wom_sum += (abs(alt) - abs(alt_onew/sex_index_w))**2
+                    glukosa_sigma_wom_sum += (abs(glukosa) - abs(glukosa_onew/sex_index_w))**2
 
-        #Тип 2
-        if int(diabet_type) == 2:
-            #For All
-            index_type_two_all += 1
-            vik_two_all += vik
-            w_two_all += w
-            uo_two_all += uo
-            eco_two_all += economisation
-            if sex == "M":
-                vik_two += vik
-                w_two += w
-                uo_two += uo
-                eco_two += economisation
-                sex_index_m2 += 1
-                index_type_two += 1
+            #Тип 2
+            if int(diabet_type) == 2:
+                #For All
+                index_type_two_all += 1
+                vik_two_all += vik
+                w_two_all += w
+                uo_two_all += uo
+                eco_two_all += economisation
+                if sex == "M":
+                    vik_two += vik
+                    w_two += w
+                    uo_two += uo
+                    eco_two += economisation
+                    sex_index_m2 += 1
+                    index_type_two += 1
 
-                #biochem
-                skf_two += skf
-                hslpvp_two += hslpvp
-                hslpnp_two += hslpnp
-                moch_two += moch
-                kreat_two += kreat
-                bilirubin_two += bilirubin
-                ast_two += ast
-                alt_two += alt
-                glukosa_two += glukosa
+                    #biochem
+                    skf_two += skf
+                    hslpvp_two += hslpvp
+                    hslpnp_two += hslpnp
+                    moch_two += moch
+                    kreat_two += kreat
+                    bilirubin_two += bilirubin
+                    ast_two += ast
+                    alt_two += alt
+                    glukosa_two += glukosa
 
-                #vik sigma
-                vik_sigma_man2_sum += (abs(vik) - abs(vik_two/sex_index_m2))**2
-                #W sigma
-                w_sigma_man2_sum += (abs(w) - abs(w_two/sex_index_m2))**2
-                #uo sigma
-                uo_sigma_man2_sum += (abs(uo) - abs(uo_two/sex_index_m2))**2
-                #eco sigma
-                eco_sigma_man2_sum += (abs(economisation) - abs(eco_two/sex_index_m2))**2
+                    #vik sigma
+                    vik_sigma_man2_sum += (abs(vik) - abs(vik_two/sex_index_m2))**2
+                    #W sigma
+                    w_sigma_man2_sum += (abs(w) - abs(w_two/sex_index_m2))**2
+                    #uo sigma
+                    uo_sigma_man2_sum += (abs(uo) - abs(uo_two/sex_index_m2))**2
+                    #eco sigma
+                    eco_sigma_man2_sum += (abs(economisation) - abs(eco_two/sex_index_m2))**2
 
-                #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
-                skf_sigma_man2_sum += (abs(skf) - abs(skf_two/sex_index_m2))**2
-                hslpvp_sigma_man2_sum += (abs(hslpvp) - abs(hslpvp_two/sex_index_m2))**2
-                hslpnp_sigma_man2_sum += (abs(hslpnp) - abs(hslpnp_two/sex_index_m2))**2
-                moch_sigma_man2_sum += (abs(moch) - abs(moch_two/sex_index_m2))**2
-                kreat_sigma_man2_sum += (abs(kreat) - abs(kreat_two/sex_index_m2))**2
-                bilirubin_sigma_man2_sum += (abs(bilirubin) - abs(bilirubin_two/sex_index_m2))**2
-                ast_sigma_man2_sum += (abs(ast) - abs(ast_two/sex_index_m2))**2
-                alt_sigma_man2_sum += (abs(alt) - abs(alt_two/sex_index_m2))**2
-                glukosa_sigma_man2_sum += (abs(glukosa) - abs(glukosa_two/sex_index_m2))**2
+                    #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
+                    skf_sigma_man2_sum += (abs(skf) - abs(skf_two/sex_index_m2))**2
+                    hslpvp_sigma_man2_sum += (abs(hslpvp) - abs(hslpvp_two/sex_index_m2))**2
+                    hslpnp_sigma_man2_sum += (abs(hslpnp) - abs(hslpnp_two/sex_index_m2))**2
+                    moch_sigma_man2_sum += (abs(moch) - abs(moch_two/sex_index_m2))**2
+                    kreat_sigma_man2_sum += (abs(kreat) - abs(kreat_two/sex_index_m2))**2
+                    bilirubin_sigma_man2_sum += (abs(bilirubin) - abs(bilirubin_two/sex_index_m2))**2
+                    ast_sigma_man2_sum += (abs(ast) - abs(ast_two/sex_index_m2))**2
+                    alt_sigma_man2_sum += (abs(alt) - abs(alt_two/sex_index_m2))**2
+                    glukosa_sigma_man2_sum += (abs(glukosa) - abs(glukosa_two/sex_index_m2))**2
 
-            if sex == "F":
-                vik_twow += vik
-                w_twow += w
-                uo_twow += uo
-                eco_twow += economisation
-                sex_index_w2 += 1
-                index_type_two_w += 1
+                if sex == "F":
+                    vik_twow += vik
+                    w_twow += w
+                    uo_twow += uo
+                    eco_twow += economisation
+                    sex_index_w2 += 1
+                    index_type_two_w += 1
 
-                #biochem
-                skf_twow += skf
-                hslpvp_twow += hslpvp
-                hslpnp_twow += hslpnp
-                moch_twow += moch
-                kreat_twow += kreat
-                bilirubin_twow += bilirubin
-                ast_twow += ast
-                alt_twow += alt
-                glukosa_twow += glukosa
+                    #biochem
+                    skf_twow += skf
+                    hslpvp_twow += hslpvp
+                    hslpnp_twow += hslpnp
+                    moch_twow += moch
+                    kreat_twow += kreat
+                    bilirubin_twow += bilirubin
+                    ast_twow += ast
+                    alt_twow += alt
+                    glukosa_twow += glukosa
 
-                #vik sigma
-                vik_sigma_wom2_sum += (abs(vik) - abs(vik_twow/sex_index_w2))**2
-                #W sigma
-                w_sigma_wom2_sum += (abs(w) - abs(w_twow/sex_index_w2))**2
-                #uo sigma
-                uo_sigma_wom2_sum += (abs(uo) - abs(uo_twow/sex_index_w2))**2
-                #eco sigma
-                eco_sigma_wom2_sum += (abs(economisation) - abs(eco_twow/sex_index_w2))**2
+                    #vik sigma
+                    vik_sigma_wom2_sum += (abs(vik) - abs(vik_twow/sex_index_w2))**2
+                    #W sigma
+                    w_sigma_wom2_sum += (abs(w) - abs(w_twow/sex_index_w2))**2
+                    #uo sigma
+                    uo_sigma_wom2_sum += (abs(uo) - abs(uo_twow/sex_index_w2))**2
+                    #eco sigma
+                    eco_sigma_wom2_sum += (abs(economisation) - abs(eco_twow/sex_index_w2))**2
 
-                #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
-                skf_sigma_wom2_sum += (abs(skf) - abs(skf_twow/sex_index_w2))**2
-                hslpvp_sigma_wom2_sum += (abs(hslpvp) - abs(hslpvp_twow/sex_index_w2))**2
-                hslpnp_sigma_wom2_sum += (abs(hslpnp) - abs(hslpnp_twow/sex_index_w2))**2
-                moch_sigma_wom2_sum += (abs(moch) - abs(moch_twow/sex_index_w2))**2
-                kreat_sigma_wom2_sum += (abs(kreat) - abs(kreat_twow/sex_index_w2))**2
-                bilirubin_sigma_wom2_sum += (abs(bilirubin) - abs(bilirubin_twow/sex_index_w2))**2
-                ast_sigma_wom2_sum += (abs(ast) - abs(ast_twow/sex_index_w2))**2
-                alt_sigma_wom2_sum += (abs(alt) - abs(alt_twow/sex_index_w2))**2
-                glukosa_sigma_wom2_sum += (abs(glukosa) - abs(glukosa_twow/sex_index_w2))**2
+                    #skf,hslpvp,hslpnp,moch,kreat,bilirubin,ast,alt,glukosa
+                    skf_sigma_wom2_sum += (abs(skf) - abs(skf_twow/sex_index_w2))**2
+                    hslpvp_sigma_wom2_sum += (abs(hslpvp) - abs(hslpvp_twow/sex_index_w2))**2
+                    hslpnp_sigma_wom2_sum += (abs(hslpnp) - abs(hslpnp_twow/sex_index_w2))**2
+                    moch_sigma_wom2_sum += (abs(moch) - abs(moch_twow/sex_index_w2))**2
+                    kreat_sigma_wom2_sum += (abs(kreat) - abs(kreat_twow/sex_index_w2))**2
+                    bilirubin_sigma_wom2_sum += (abs(bilirubin) - abs(bilirubin_twow/sex_index_w2))**2
+                    ast_sigma_wom2_sum += (abs(ast) - abs(ast_twow/sex_index_w2))**2
+                    alt_sigma_wom2_sum += (abs(alt) - abs(alt_twow/sex_index_w2))**2
+                    glukosa_sigma_wom2_sum += (abs(glukosa) - abs(glukosa_twow/sex_index_w2))**2
 
     """
     Man type 1
@@ -1128,7 +1132,7 @@ def stats(request):
     statistic['w_two_gl_cv'] = round(cv, 4)
     statistic['w_two_gl_middle'] = round(middle, 4)
 
+    current_user = request.user
+
     return render_to_response('statistic.html', {'peoples': users, 'profiles': profiles,
-                                                 'statistic': statistic}, context)
-
-
+                                                 'statistic': statistic, 'current': current_user}, context)

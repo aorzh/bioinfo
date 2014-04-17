@@ -2,6 +2,13 @@
 
 {% block content %}
     {% load static %}
+    <hr>
+        <h4>Тип 1, М: {{ statistic.m_one_sex }}</h4>
+        <h4>Тип 1, Ж: {{ statistic.w_one_sex }}</h4>
+    <hr>
+        <h4>Тип 2, М: {{ statistic.m_two_sex }}</h4>
+        <h4>Тип 2, Ж: {{ statistic.w_two_sex }}</h4>
+    <hr>
 
     <table class="table table-bordered">
         <caption>Глюкоза</caption>
