@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Register with BioInfo</h1>
+    <div class="span4 offset4">
+        {% if registered %}
+            <h3>Успех!</h3>
+            <p>Сейчас Ваш аккаун неактивен. Как только модератор рассмотрит Ваши данные, мы сообщим Вам!</p>
+            <a href="/">На главную.</a><br/>
+        {% else %}
+            <p>Пожалуйста, зарегестрируйтесь и добавьте данные анализов в форме внизу</p><br/>
 
-    {% if registered %}
-        <a href="/">На главную.</a><br/>
-    {% else %}
-        <p>Пожалуйста, заренестрируйтесь и добавте данные анализов в форме внизу</p><br/>
+            <form id="user_form" method="post" action="/register/"
+                  enctype="multipart/form-data">
 
-        <form id="user_form" method="post" action="/register/"
-              enctype="multipart/form-data">
+                {% csrf_token %}
 
-            {% csrf_token %}
+                <!-- Display each form. The as_p method wraps each element in a paragraph
+                     (<p>) element. This ensures each element appears on a new line,
+                     making everything look neater. -->
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
 
-            <!-- Display each form. The as_p method wraps each element in a paragraph
-                 (<p>) element. This ensures each element appears on a new line,
-                 making everything look neater. -->
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
-
-            <!-- Provide a button to click to submit the form. -->
-            <input class="btn btn-primary" type="submit" name="submit" value="Зарергестрироваться"/>
-        </form>
-    {% endif %}
+                <!-- Provide a button to click to submit the form. -->
+                <input class="btn btn-primary" type="submit" name="submit" value="Зарергестрироваться"/>
+            </form>
+        {% endif %}
+    </div>
 {% endblock %}

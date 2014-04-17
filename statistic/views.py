@@ -17,9 +17,6 @@ def index(request):
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
     current_user = request.user
-    # Construct a dictionary to pass to the template engine as its context.
-    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    #context_dict = {'boldmessage': "I am bold font from the context"}
 
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
@@ -91,7 +88,7 @@ def register(request):
 def user_login(request):
     # Like before, obtain the context for the user's request.
     context = RequestContext(request)
-
+    context_dict = {}
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -115,11 +112,13 @@ def user_login(request):
                 return HttpResponseRedirect('/')
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your BioInfo account is disabled.")
+                context_dict['status'] = 'К сожалению Ваш аккаунт еще неактивен.'
+                return render_to_response('login.html', context_dict, context)
         else:
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            status = "Неверные данные: {0}, {1}".format(username, password)
+            context_dict['status'] = status
+            return render_to_response('login.html', context_dict, context)
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
