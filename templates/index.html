@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
+    <div class="span9 offset1">
+    {% for feed in feeds %}
+        <ul class="unstyled">
+            <li>
+                <a target="_blank" href="{{ feed.url }}">{{ feed.title }}</a>
+                <p>{{ feed.description.value }}</p>
+            </li>
+        </ul>
+    {% endfor %}
+    </div>
 {% endblock %}

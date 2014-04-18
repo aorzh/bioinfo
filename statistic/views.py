@@ -10,18 +10,30 @@ from django.contrib.auth import logout
 from statistic.models import UserProfile
 import math
 import datetime
+import feedparser
 
 
 def index(request):
+    context_dict = {}
+    feed = feedparser.parse('http://www.mol.bio.msu.ru/news/rss.php?NEWS_DIVISION=1')
+    posts = []
+    for i in range(0, len(feed['entries'])):
+        posts.append({
+            'title': feed['entries'][i].title,
+            'description': feed['entries'][i].summary_detail,
+            'time': feed['entries'][i].published,
+            'url': feed['entries'][i].link,
+        })
+    context_dict['feeds'] = posts
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
     current_user = request.user
-
+    context_dict['current'] = current_user
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
-    return render_to_response('index.html', {'current': current_user}, context)
+    return render_to_response('index.html', context_dict, context)
 
 
 def register(request):
