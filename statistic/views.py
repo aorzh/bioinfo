@@ -10,8 +10,9 @@ from django.contrib.auth import logout
 from statistic.models import UserProfile, Post
 import math
 import datetime
-from django.core.context_processors import csrf
+from django import template
 # import feedparser
+register = template.Library()
 
 
 def index(request):
@@ -38,6 +39,17 @@ def post(request, post_id):
     context_dict['post'] = curr_post
 
     return render_to_response('post.html', context_dict, context)
+
+
+@register.inclusion_tag("right.html")
+def right_sidebar(request):
+    context = RequestContext(request)
+    context_dict = {}
+    current_user = request.user
+    pro = UserProfile.objects.get(pk=current_user)
+    context_dict['profile'] = pro
+
+    return render_to_response('right.html', context_dict, context)
 
 
 def register(request):

@@ -4,15 +4,18 @@
 {% block content %}
 
     {% paginate posts %}
-    <div id="container" class="js-masonry" data-masonry-options='{ "columnWidth": 20, "itemSelector": ".item" }'>
+    <div id="container" class="js-masonry" data-masonry-options='{ "columnWidth": 30, "itemSelector": ".item" }'>
         {% for post in posts %}
             <div class="wrap-post item">
                 <a href="post/{{ post.id }}">
-                    <img class="img" src="{{ MEDIA_URL }}{{ post.image }}" width="300">
-
+                    {% if post.image %}
+                        <img class="img" src="{{ MEDIA_URL }}{{ post.image }}" width="300">
+                    {% else %}
+                        <img class="img" src="{{ STATIC_URL }}img/default.jpg" width="300">
+                    {% endif %}
                     <div class="post-text">
                         <h3>{{ post.title }}</h3>
-                        <span>{{ post.body|safe|truncatewords:"50"|linebreaks }}</span>
+                        <span>{{ post.body|safe|truncatewords:"20"|linebreaks }}</span>
                     </div>
                 </a>
             </div>
