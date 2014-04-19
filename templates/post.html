@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+   <div class="col-md-9">
+        <p>{{ post.title }}</p>
+        <p>{{ post.body }}</p>
+        <p><img src="{{ MEDIA_URL }}{{ post.image }}" width="600"></p>
+   </div>
+{% endblock %}

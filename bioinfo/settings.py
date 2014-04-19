@@ -1,5 +1,5 @@
 import os
-# Django settings for bioinfo project.
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 SETTINGS_DIR = os.path.dirname(__file__)
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 PROJECT_PATH = os.path.abspath(PROJECT_PATH)
@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'statistic',
     'south',
+    'endless_pagination',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -160,3 +161,9 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = "statistic.userprofile"
+
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
+
+ENDLESS_PAGINATION_PER_PAGE = 12

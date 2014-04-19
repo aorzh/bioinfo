@@ -1,6 +1,25 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib import admin
+
+
+class Post(models.Model):
+    title = models.CharField('Заголовок', max_length=150)
+    body = models.TextField('Текст')
+    time = models.DateTimeField('Дата')
+    image = models.ImageField('Картинка', upload_to='post_images', blank=True)
+
+    class Meta:
+        ordering = ("-time",)
+
+    # Override the __unicode__() method to return out something meaningful!
+    def __unicode__(self):
+        return self.title
+
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ("title", "time")
 
 
 class UserProfile(models.Model):
@@ -66,3 +85,10 @@ class UserProfile(models.Model):
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
+
+    class Meta:
+        ordering = ("-user",)
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ("user", "year", "gender")
