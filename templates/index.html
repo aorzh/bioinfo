@@ -6,7 +6,6 @@
     {% paginate posts %}
 
         {% for post in posts %}
-            <div class="wrap-post item">
                 <a href="post/{{ post.id }}">
                     {% if post.image %}
                         <img class="img" src="{{ MEDIA_URL }}{{ post.image }}" width="300">
@@ -18,7 +17,6 @@
                         <span>{{ post.body|safe|truncatewords:"20"|linebreaks }}</span>
                     </div>
                 </a>
-            </div>
         {% endfor %}
 
     {% show_pages %}

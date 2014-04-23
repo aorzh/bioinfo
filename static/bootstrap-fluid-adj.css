@@ -1,0 +1,56 @@
+body {
+    font-family: "Georgia", "Times New Roman", serif;
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.wrap-post {
+    display:inline-block;
+    position:relative;
+    text-align: center;
+}
+.wrap-post .post-text {
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color:#000000;
+    padding:10px;
+    /*background-color: rgba(255, 255, 255, 0.30);*/
+}
+
+.wrap-post:hover .post-text {
+    background-color: rgba(255, 255, 255, 0.60);
+}
+
+.wrap-post h3 {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size:18px;
+}
+.wrap-post span {
+    font-size:12px;
+}
+.item {
+    margin: 10px;
+}
+.sidebar-nav {
+padding: 9px 0;
+}
+
+@media (max-width: 980px) {
+    /* Enable use of floated navbar text */
+    .navbar-text.pull-right {
+    float: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    }
+}
+
+.table thead th {
+    text-align: center;
+}
