@@ -4,7 +4,7 @@
 {% block content %}
 
     {% paginate posts %}
-    <div id="container" class="js-masonry" data-masonry-options='{ "columnWidth": 30, "itemSelector": ".item" }'>
+
         {% for post in posts %}
             <div class="wrap-post item">
                 <a href="post/{{ post.id }}">
@@ -20,6 +20,6 @@
                 </a>
             </div>
         {% endfor %}
-    </div>
+
     {% show_pages %}
 {% endblock %}

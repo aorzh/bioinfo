@@ -12,7 +12,7 @@ import math
 import datetime
 from django import template
 # import feedparser
-register = template.Library()
+#register = template.Library()
 
 
 def index(request):
@@ -41,6 +41,7 @@ def post(request, post_id):
     return render_to_response('post.html', context_dict, context)
 
 
+"""
 @register.inclusion_tag("right.html")
 def right_sidebar(request):
     context = RequestContext(request)
@@ -50,6 +51,7 @@ def right_sidebar(request):
     context_dict['profile'] = pro
 
     return render_to_response('right.html', context_dict, context)
+"""
 
 
 def register(request):

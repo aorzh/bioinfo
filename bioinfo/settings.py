@@ -166,5 +166,4 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
 )
 
-ENDLESS_PAGINATION_PER_PAGE = 12
-DISQUS_WEBSITE_SHORTNAME = 'bio-informatics'
+# ENDLESS_PAGINATION_PER_PAGE = 7
