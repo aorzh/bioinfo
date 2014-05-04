@@ -2,6 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
+from image_cropping import ImageRatioField
+from image_cropping import ImageCroppingMixin
 
 
 class Post(models.Model):
@@ -9,6 +11,8 @@ class Post(models.Model):
     body = models.TextField('Текст')
     time = models.DateTimeField('Дата')
     image = models.ImageField('Картинка', upload_to='post_images', blank=True)
+     # size is "width x height"
+    cropping = ImageRatioField('image', '430x360', size_warning=True)
 
     class Meta:
         ordering = ("-time",)
@@ -18,7 +22,8 @@ class Post(models.Model):
         return self.title
 
 
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(ImageCroppingMixin, admin.ModelAdmin):
+    pass
     list_display = ("title", "time")
 
 

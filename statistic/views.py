@@ -14,6 +14,12 @@ from django import template
 # import feedparser
 #register = template.Library()
 
+"""
+def constants(request):
+    from django.conf import settings
+    return settings.CONSTANTS
+"""
+
 
 def index(request):
     context_dict = {}
@@ -221,6 +227,11 @@ def profile(request, user_id):
 
 
 def stats(request):
+    from django.conf import settings
+    constants = settings.CONSTANTS  # Sa for control group
+    # for getting constants value use .get('some key')
+
+
     statistic = {}
     # Add variables
     vik_one_all = int()
@@ -1164,4 +1175,4 @@ def stats(request):
     current_user = request.user
 
     return render_to_response('statistic.html', {'peoples': users, 'profiles': profiles,
-                                                 'statistic': statistic, 'current': current_user}, context)
+                                                 'statistic': statistic, 'current': current_user, 'const': constants}, context)

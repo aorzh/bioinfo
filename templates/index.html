@@ -1,23 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 {% load endless %}
+{% load thumbnail %}
 {% block content %}
-
-    {% paginate posts %}
+    <div class="col-md-12 blog-main">
+        {% paginate posts %}
 
         {% for post in posts %}
-                <a href="post/{{ post.id }}">
+            <div class="post-wrap">
+                <div class="post-title">
+                    <a href="post/{{ post.id }}"><h2>{{ post.title }}</h2></a>
+                </div>
+                <div class="post-body">
                     {% if post.image %}
-                        <img class="img" src="{{ MEDIA_URL }}{{ post.image }}" width="300">
-                    {% else %}
-                        <img class="img" src="{{ STATIC_URL }}img/default.jpg" width="300">
+                        <div class="post-img">
+                            <img class="img" src="{% thumbnail post.image 430x360 box=post.cropping crop detail %}"
+                                 width="150">
+                        </div>
                     {% endif %}
                     <div class="post-text">
-                        <h3>{{ post.title }}</h3>
-                        <span>{{ post.body|safe|truncatewords:"20"|linebreaks }}</span>
+                        {{ post.body|safe|truncatewords:"50"|linebreaks }}
                     </div>
-                </a>
+                </div>
+            </div>
         {% endfor %}
 
-    {% show_pages %}
+        {% show_pages %}
+    </div>
+    <div class="col-sm-3">
+
+    </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+from easy_thumbnails.conf import Settings as thumbnailSettings
 SETTINGS_DIR = os.path.dirname(__file__)
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 PROJECT_PATH = os.path.abspath(PROJECT_PATH)
@@ -127,6 +128,8 @@ INSTALLED_APPS = (
     'statistic',
     'south',
     'endless_pagination',
+    'easy_thumbnails',
+    'image_cropping',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -166,4 +169,26 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
 )
 
-# ENDLESS_PAGINATION_PER_PAGE = 7
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnailSettings.THUMBNAIL_PROCESSORS
+
+IMAGE_CROPPING_SIZE_WARNING = True
+
+ENDLESS_PAGINATION_PER_PAGE = 5
+
+CONSTANTS = {
+    'SKF': 100.0,
+    'MOCH': 5.4,
+    'KREAT': 75.0,
+    'VP': 5.7,
+    'NP': 0.0,
+    'BIL': 14.525,
+    'AST': 0.0,
+    'ALT': 0.0,
+    'KERDO': 0.0,
+    'DOUBLE': 290.0,
+    'UO': 81.0,
+    'ECO': 2600,
+    'GLU': 4.86,
+}

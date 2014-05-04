@@ -35,7 +35,7 @@
                     {% endif %}
                 </ul>
                 <ul class="nav navbar-nav">
-                    {% if current %}
+                    {% if current.id  %}
                         <li><a href="/profile/{{ current.id }}">Профиль</a></li>
                     {% endif %}
                     {% if current.is_superuser %}
@@ -48,24 +48,12 @@
             <!--/.nav-collapse -->
     </div>
 </nav>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <!--<div class="span3">
-            <div class="well sidebar-nav">
-                <!--- Empty for the timebeing -->
-            <!--</div> -->
-            <!--/.well -->
-        <!-- </div>-->
-        <!--/span-->
-        <div class="col-md-12">
             {% block content %}
             {% endblock %}
-        </div>
-        <!--/span-->
     </div>
-    <!--/row-->
 </div>
-<!--/.fluid-container-->
 
 <hr>
 
